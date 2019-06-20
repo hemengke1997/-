@@ -1,0 +1,543 @@
+<template>
+  <div>
+    <First/>
+    <Second/>
+    <Third/>
+    <Fourth/>
+    <VideoBox/>
+  </div>
+</template>
+<script>
+import First from './Index_first_page'
+import Second from './Index_second_page'
+import Third from './Index_third_page'
+import Fourth from './Index_fourth_page'
+import VideoBox from './Index_video_box'
+export default {
+    components:{
+        First,
+        Second,
+        Third,
+        Fourth,
+        VideoBox
+    },
+    data(){
+      return {
+        
+      }
+    }
+};
+</script>
+
+<style>
+* {
+  padding: 0;
+  margin: 0;
+}
+ul {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+}
+/* .role_name类字体 */
+@font-face {
+  font-family: wenyue;
+  src: url("../style/font/WenYue-XinQingNianTi-NC-W8-1.otf");
+}
+/* 第一屏开始 */
+.first {
+  width: 100%;
+  height: 960px;
+  position: relative;
+  background: url("../style/imgs/bg_wrap_fullpage.png") no-repeat top center;
+}
+.first .first_container {
+  width: 1200px;
+  height: 960px;
+  margin: 0 auto;
+}
+.first_container .first_logo {
+  width: 680px;
+  height: 605px;
+  background: url("../style/imgs/jkvlog.png") no-repeat;
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+}
+.first_container .first_cute {
+  position: absolute;
+  width: 1105px;
+  height: 645px;
+  left: 50%;
+  bottom: -50px;
+  transform: translateX(-50%);
+  animation: first_cute 3s linear infinite;
+}
+@keyframes first_cute {
+  0% {
+    left: 50%;
+    bottom: -50px;
+  }
+  25% {
+    left: 50%;
+    bottom: -45px;
+  }
+  50% {
+    left: 49%;
+    bottom: -50px;
+  }
+  75% {
+    left: 49%;
+    bottom: -45px;
+  }
+  100% {
+    left: 50%;
+    bottom: -50px;
+  }
+}
+/* 第一屏结束 */
+/* 第二屏开始 */
+.second {
+  width: 100%;
+  height: 280px;
+  background: url("../style/imgs/zu23.png") no-repeat;
+}
+.second .second_container {
+  width: 1200px;
+  height: 280px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+}
+.second .second_container .role_ul {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.second .second_container .role_item {
+  width: 280px;
+  height: 114px;
+  position: relative;
+}
+.second .second_container .role_item:nth-child(1) {
+  background: url("../style/imgs/charorange.png") no-repeat;
+}
+.second .second_container .role_item:nth-child(2) {
+  background: url("../style/imgs/charblue.png") no-repeat;
+}
+.second .second_container .role_item:nth-child(3) {
+  background: url("../style/imgs/charred.png") no-repeat;
+}
+.second .second_container .role_item:nth-child(4) {
+  background: url("../style/imgs/charyellow.png") no-repeat;
+}
+.second .second_container .role_item .role_name {
+  font-size: 24px;
+  font-weight: 700;
+  font-family: wenyue;
+  color: #fff;
+  position: absolute;
+  left: 50px;
+  top: 20px;
+}
+.second .second_container .role_item .role_pic {
+  position: absolute;
+  right: 0;
+  top: -70px;
+}
+/* 第二屏结束 */
+/* 第三屏开始 */
+.third {
+  width: 100%;
+  height: 760px;
+  background: url("../style/imgs/third_part_bg.png") no-repeat;
+  padding-top: 1px;
+  position: relative;
+}
+.third .third_person {
+  display: block;
+  width: 285px;
+  height: 356px;
+  position: absolute;
+  left: -410px;
+  bottom: -10px;
+  background: url("../style/imgs/sub02_char02.png") no-repeat;
+}
+.third .third_container {
+  width: 1200px;
+  height: 599px;
+  margin: 110px auto 0 auto;
+  position: relative;
+}
+.third .third_container .carousel {
+  width: 600px;
+  height: 390px;
+  border: 10px solid #000;
+  border-radius: 20px;
+  position: relative;
+  z-index: 1;
+}
+.carousel_box {
+  width: 600px;
+  height: 390px;
+  overflow: hidden;
+  position: relative;
+}
+.carousel .carousel_ul {
+  display: flex;
+  position: absolute;
+  left: 0;
+  top: 0;
+  transition: transform 1s linear;
+}
+.carousel .carousel_ul.active{
+  transition: all 1s linear;
+}
+.carousel .carousel_ul .carousel_item img {
+  width: 600px;
+  height: 390px;
+  border-radius: 5px;
+}
+.third .third_container .carousel .arrow_left {
+  width: 37px;
+  height: 31px;
+  background: url("../style/imgs/left.png") no-repeat;
+  position: absolute;
+  left: 250px;
+  bottom: -55px;
+  cursor: pointer;
+}
+.third .third_container .carousel .arrow_right {
+  width: 41px;
+  height: 35px;
+  background: url("../style/imgs/right.png") no-repeat;
+  position: absolute;
+  right: 250px;
+  bottom: -57px;
+  cursor: pointer;
+}
+.third_container .news_box {
+  width: 570px;
+  height: 390px;
+  position: absolute;
+  right: 30px;
+  top: 110px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 0px 5px 5px rgba(0, 0, 0, 0.2);
+}
+.third_container .news_box.active {
+  display: block;
+}
+.third_container .news_box.hide {
+  display: none;
+}
+.third_container .news_tab {
+  width: 570px;
+  height: 110px;
+  position: absolute;
+  right: 35px;
+  top: -20px;
+  user-select: none;
+}
+.news_tab .news_tab_ul {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 35px;
+}
+.news_tab_ul .news_tab_item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 700;
+  margin: 0 20px;
+  cursor: pointer;
+  color: #736801;
+}
+.news_tab_ul .news_tab_item .news_ch {
+  margin: 5px 0;
+}
+.news_tab_ul .news_tab_item:first-child {
+  margin: 0 20px 0 0;
+}
+.news_tab_ul .news_tab_item:last-child {
+  margin: 0 0 0 20px;
+}
+.news_tab_ul .news_tab_item.active {
+  color: #000;
+}
+.news_tab_ul .news_tab_item.active::after {
+  background-color: #ffcc01;
+  content: "";
+  width: 30px;
+  height: 4px;
+  border-radius: 10px;
+}
+.news_tab_ul .news_tab_item .news_en {
+  font-family: "Agency FB";
+}
+
+.third_container .news_box .look_more {
+  display: block;
+  position: absolute;
+  right: 45px;
+  top: 25px;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+.third_container .news_box .look_more::before,
+.third_container .news_box .look_more:after {
+  background-color: #ffcc01;
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.third_container .news_box .look_more::before {
+  width: 16px;
+  height: 4px;
+}
+.third_container .news_box .look_more::after {
+  width: 4px;
+  height: 16px;
+}
+.third_container .news_box .news_ul {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-top: 55px;
+}
+.news_ul.active {
+  display: flex;
+}
+.news_ul.hide {
+  display: none !important;
+}
+.news_item {
+  display: flex;
+  width: 470px;
+  height: 60px;
+  margin-left: 60px;
+  align-items: center;
+  transition: padding-left 0.2s linear;
+  cursor: pointer;
+}
+.news_item.active {
+  width: 540px;
+  height: 60px;
+  background-color: #537ff5;
+  padding-left: 40px;
+}
+.news_item.active .news_icon {
+  background-color: #fff;
+}
+.news_item .news_icon {
+  display: block;
+  width: 40px;
+  height: 20px;
+  border-radius: 20px;
+  font-size: 12px;
+  margin-right: 10px;
+  background-color: #ffcc01;
+  text-align: center;
+  line-height: 20px;
+}
+.news {
+  width: 420px;
+  height: 60px;
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.news_item:last-child .news {
+  border-bottom: none;
+}
+.news .news_content {
+  font-size: 14px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 330px;
+}
+.news .news_date {
+  font-size: 12px;
+  float: right;
+}
+
+/* 第三屏结束 */
+/* 第四屏开始 */
+.fourth {
+  width: 100%;
+  height: 780px;
+  background: url("../style/imgs/bg8.png") no-repeat;
+  overflow: hidden;
+}
+.fourth .fourth_container {
+  width: 1200px;
+  height: 460px;
+  margin: 210px auto 0 auto;
+  position: relative;
+}
+.fourth .fourth_container .great_video {
+  width: 125px;
+  height: 188px;
+  position: absolute;
+  left: -200px;
+  top: -20px;
+  background: url("../style/imgs/goodvideo.png") no-repeat;
+}
+
+.fourth_container .video_tab {
+  width: 1200px;
+  height: 150px;
+  position: absolute;
+  left: 0px;
+  top: -100px;
+}
+.video_tab .video_tab_ul {
+  display: flex;
+  justify-content: flex-start;
+}
+.video_tab_ul .video_tab_li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 20px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  color: #dad3f2;
+}
+.video_tab_ul .video_tab_li:first-child {
+  margin: 0 20px 0 0;
+}
+.video_tab_ul .video_tab_li:last-child {
+  margin: 0 0 0 20px;
+}
+.video_tab_ul .video_tab_li.active {
+  color: #fff;
+}
+.video_tab_ul .video_tab_li.active::after {
+  background-color: #fff;
+  content: "";
+  width: 30px;
+  height: 4px;
+  border-radius: 10px;
+}
+.video_tab_li .video_desc_ch {
+  margin: 5px 0;
+}
+.video_tab_li .video_desc_en {
+  font-family: "Agency FB";
+}
+.fourth_container .video_box {
+  width: 1200px;
+  height: 440px;
+}
+.fourth_container .video_box.active {
+  display: block;
+}
+.fourth_container .video_box.hide {
+  display: none;
+}
+.video_box .video_ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  height: 440px;
+}
+.video_item {
+  position: relative;
+}
+.video_item video {
+  width: 280px;
+  height: 160px;
+  border-radius: 5px;
+}
+.video_item .video_title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  margin-top: 20px;
+}
+.video_item .video_mask {
+  width: 280px;
+  height: 160px;
+  background-color: rgba(0, 0, 0, 0.6);
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.video_item .video_mask.hide {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+.video_item .video_mask .video_button {
+  width: 74px;
+  height: 72px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: url("../style/imgs/video_button.png") no-repeat;
+  cursor: pointer;
+  border-radius: 50%;
+}
+.big_video_box {
+  width: 1200px;
+  height: 720px;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 99;
+  display: none;
+}
+.big_video_box video {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.big_video_box .close_video {
+  display: block;
+  position: absolute;
+  right: 170px;
+  top: 90px;
+  width: 35px;
+  height: 30px;
+  cursor: pointer;
+}
+.big_video_box .close_video::before,
+.big_video_box .close_video::after {
+  background-color: #000;
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.big_video_box .close_video::before {
+  transform: rotate(45deg);
+  width: 30px;
+  height: 4px;
+  position: absolute;
+  left: 3px;
+  top: 13px;
+}
+.big_video_box .close_video::after {
+  transform: rotate(45deg);
+  width: 4px;
+  height: 30px;
+  position: absolute;
+  left: 16px;
+  top: 0;
+}
+/* 第四屏结束 */
+</style>
