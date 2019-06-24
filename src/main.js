@@ -4,7 +4,10 @@
 import Vue from 'vue'
 import App from './App' //引入组件 组件的标签名叫做  App
 import router from './router'
+import $ from 'jquery'
+import axios from 'axios'
 
+Vue.prototype.$axios = axios
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

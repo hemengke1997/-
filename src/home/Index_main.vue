@@ -190,12 +190,8 @@ a {
 .carousel .carousel_ul {
   display: flex;
   position: absolute;
-  left: 0;
+  left: -600px;
   top: 0;
-  transition: transform 1s linear;
-}
-.carousel .carousel_ul.active{
-  transition: all 1s linear;
 }
 .carousel .carousel_ul .carousel_item img {
   width: 600px;
@@ -335,7 +331,7 @@ a {
   background-color: #537ff5;
   padding-left: 40px;
 }
-.news_item.active .news_icon {
+.news_item .news_icon:hover {
   background-color: #fff;
 }
 .news_item .news_icon {

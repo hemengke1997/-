@@ -1,45 +1,47 @@
 <template>
   <div class="third">
     <div class="third_container">
-      <span class="third_person"></span>
+      <span class="third_person" :class="{active:flag}"></span>
+
       <carousel></carousel>
-      <div class="news_tab">
-        <ul class="news_tab_ul">
-          <li class="news_tab_item active">
-            <span class="news_en">NEW</span>
-            <span class="news_ch">最新</span>
-          </li>
-          <li class="news_tab_item">
-            <span class="news_en">NEWS</span>
-            <span class="news_ch">新闻</span>
-          </li>
-          <li class="news_tab_item">
-            <span class="news_en">NOTICE</span>
-            <span class="news_ch">公告</span>
-          </li>
-        </ul>
-      </div>
-      <div class="news_box active">
-        <span class="look_more"></span>
-        <ul class="news_ul"></ul>
-      </div>
+      <newstab></newstab>
+      
+      
     </div>
   </div>
 </template>
 
 <script>
+import NewsTab from './Third_page_newstab';
 import Carousel from './Carousel';
 export default {
   data(){
     return{
-      
+      flag:false 
     }
   },
   components:{
-    carousel:Carousel
+    carousel:Carousel,
+    newstab:NewsTab
+  },
+  methods:{
+    roleAnimation(){
+      const scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop
+      if(scrollTop >= 1100){
+        this.flag = true
+      }
+    }
+  },
+  mounted(){
+    window.addEventListener('scroll',this.roleAnimation)
   }
 };
 </script>
 
 <style>
+.third .third_person.active {
+  left: -300px;
+  bottom: -135px;
+  transition: all 1s;
+}
 </style>
