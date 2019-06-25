@@ -4,7 +4,6 @@
     <Second/>
     <Third/>
     <Fourth/>
-    <VideoBox/>
   </div>
 </template>
 <script>
@@ -12,14 +11,12 @@ import First from './Index_first_page'
 import Second from './Index_second_page'
 import Third from './Index_third_page'
 import Fourth from './Index_fourth_page'
-import VideoBox from './Index_video_box'
 export default {
     components:{
         First,
         Second,
         Third,
         Fourth,
-        VideoBox
     },
     data(){
       return {
@@ -401,6 +398,8 @@ a {
 .video_tab .video_tab_ul {
   display: flex;
   justify-content: flex-start;
+  padding-left: 10px;
+  user-select: none;
 }
 .video_tab_ul .video_tab_li {
   display: flex;
@@ -438,20 +437,21 @@ a {
   width: 1200px;
   height: 440px;
 }
-.fourth_container .video_box.active {
-  display: block;
-}
-.fourth_container .video_box.hide {
-  display: none;
-}
 .video_box .video_ul {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: center;
   height: 440px;
 }
 .video_item {
   position: relative;
+  margin: 0 12px;
+}
+.video_item:nth-child(4n) {
+  margin: 0 0 0 12px;
+}
+.video_item:nth-child(4n+1) {
+  margin: 0 12px 0 0;
 }
 .video_item video {
   width: 280px;
@@ -471,8 +471,9 @@ a {
   position: absolute;
   left: 0;
   top: 0;
+  border-radius: 5px;
 }
-.video_item .video_mask.hide {
+.video_item .video_mask:hover {
   background-color: rgba(0, 0, 0, 0.1);
 }
 .video_item .video_mask .video_button {
