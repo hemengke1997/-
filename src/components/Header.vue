@@ -77,7 +77,7 @@ a {
 .logo {
   float: left;
   margin-left: 95px;
-  margin-top: 18px;
+  margin-top: 8px;
   position: relative;
   z-index: 1;
 }

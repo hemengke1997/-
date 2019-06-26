@@ -440,7 +440,6 @@ a {
 .video_box .video_ul {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
   height: 440px;
 }
 .video_item {

@@ -5,15 +5,23 @@
       :class="{disabled: currentPage===1}"
       @click="prevPage"
     >上一页</span>
+    
     <ul class="pagination-ul">
+
+      <span class="ellipsis" v-show="currentPage>3&&totalPage>5">...</span>
+
       <li
         class="page-item"
-        v-for="index in totalPage"
+        v-for="(item,index) in tempTotal"
         :key="index"
-        :class="{selected: currentPage === index}"
-        @click="turnPage(index)"
-      >{{ index }}</li>
+        :class="{selected: currentPage === item}"
+        @click="turnPage(item)"
+      >{{ item }}</li>
+
+    <span class="ellipsis" v-show="(currentPage > 3 && currentPage <= totalPage - 3 || currentPage <= 3) && totalPage > 5">...</span>
+
     </ul>
+
     <span class="btn-next-page" :class="{disabled: currentPage === totalPage}" @click="nextPage">下一页</span>
   </div>
 </template>
@@ -23,21 +31,64 @@
 export default {
   data() {
     return {
+      maxLength:8,
+      ellipsisFlag:true,
+      tempTotal:[]
     };
   },
   methods: {
     nextPage() {
-       
+       if(this.currentPage!=this.totalPage){
+         this.$store.state.currentPage++
+       }
     },
     prevPage() {
-        
+        if(this.currentPage!=1){
+          this.$store.state.currentPage--
+        }
     },
-    turnPage() {},
+    turnPage(current) {
+      this.$store.commit('turnPage',current)
+      if(current > 3 && current <= this.totalPage - 3) {
+          this.tempTotal = [];
+          for(let i=current-2;i<=current+2;i++){
+            // this.tempTotal.push(current)
+          }
+      }
+    },
+    test(){
+ if(this.totalPage > 5){
+        for(var i=1;i<=5;i++){
+           console.log(this)
+          this.tempTotal.push(i)
+        }
+      } else {
+        for(var i=1;i<=this.totalPage;i++){
+          console.log(this)
+          this.tempTotal.push(i)
+        }
+      }
+      
+      console.log(this.tempTotal)
+    }
   },
   computed:{
+    totalPage(){
+      return Math.ceil(this.$store.state.data.length/this.maxLength)
+    },
+    currentPage(){
+      return this.$store.state.currentPage
+    },
+
   },
   mounted(){
-      
+      // let pageArr = []
+    // this.test()
+  },
+  watch:{
+    totalPage(){
+      this.test()
+    }
   }
 };
 </script>
@@ -52,7 +103,7 @@ export default {
   justify-content: center;
   user-select: none;
 }
-.pagination-ul,
+
 .page-item {
   cursor: pointer;
 }
@@ -60,7 +111,8 @@ export default {
   display: flex;
   margin: 0 20px;
 }
-.page-item {
+.page-item,
+.ellipsis {
   margin: 0 8px;
   width: 30px;
   height: 30px;
