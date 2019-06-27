@@ -5,5 +5,8 @@ export default {
     },
     turnPage(state,msg){
         state.currentPage = msg
+    },
+    changeNewsItems(state,msg) {
+        state.newsItems = msg
     }
 }

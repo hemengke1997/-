@@ -29,12 +29,12 @@ export default {
     return {
       Item: [
         {
-          itemHref: "index.html",
+          itemHref: "/",
           title: "首页"
         },
         {
-          itemHref: "newscenter.html",
-          title: "游戏资料"
+          itemHref: "/newsCenter",
+          title: "新闻中心"
         },
         {
           itemHref: "gameintroduce.html",
@@ -69,6 +69,10 @@ ul {
 }
 a {
   text-decoration: none;
+}
+@font-face {
+  font-family: wenyue;
+  src: url('../style/font/WenYue-XinQingNianTi-NC-W8-1.otf');
 }
 /* header模块 */
 .top {

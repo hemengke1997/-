@@ -18,7 +18,14 @@
     <div class="news_box">
       <span class="look_more" :type="tabItem[isActive].ch"></span>
       <ul class="news_ul">
-        <li class="news_item" v-for="(item,index) in data" :key="index"  :id="item._id" :typeid="item.type_id" @click="enterItem(id)">
+        <li
+          class="news_item"
+          v-for="(item,index) in tempItems"
+          :key="index"
+          :id="item._id"
+          :typeid="item.type_id"
+          @click="enterItem(id)"
+        >
           <span class="news_icon">{{ item.type }}</span>
           <div class="news">
             <span class="news_content">{{ item.description }}</span>
@@ -33,7 +40,6 @@
 
 <script>
 import axios from "axios";
-import $ from "jquery";
 export default {
   data() {
     return {
@@ -45,40 +51,41 @@ export default {
       maxLength: 5,
       ItemLength: 0,
       flag: false,
-      data: [],
-      isActive:0
+      isActive: 0,
+      tempItems: [1,2,2]
     };
   },
   methods: {
-    enterItem() {
-        
+    enterItem() {},
+    clickNewsTab(type, index) {
+      this.getNewsItem(type);
+      this.isActive = index;
     },
-    clickNewsTab(type,index) {
-        this.getNewsItem(type)
-        this.isActive = index
-        this.changeType(index)
+    templateLen(x,y){
+      let len = x.length > this.maxLength ? this.maxLength : x.length;
+      y = x.slice(0, len);
+      this.tempItems = y;
     },
     getNewsItem(type) {
-      if (type === undefined || type === '最新') {
-        this.$axios.get("http://api.paopao.vip/news/item").then(res => {
-          this.data = res.data.data.records;
-          let len = this.data.length;
-          this.ItemLength = len > this.maxLength ? this.maxLength : len;
-          this.data.splice(this.ItemLength);
-        });
+      if (type === undefined || type === "最新") {
+        this.tempItems = this.data
+        this.templateLen(this.data,this.tempItems) 
       } else {
-        this.$axios.get("http://api.paopao.vip/news/item").then(res => {
-          this.data = res.data.data.records;
-          this.data = this.data.filter(item=>{
-              return item.type === type
-          })
-          let len = this.data.length;
-          this.ItemLength = len > this.maxLength ? this.maxLength : len;
-          this.data.splice(this.ItemLength);
+        this.tempItems = this.data.filter(item => {
+          return item.type === type;
         });
+        this.templateLen(this.tempItems,this.tempItems)
       }
     },
-    getDate: function(time) {
+    getAllItems() {
+      this.$axios.get("http://api.paopao.vip/news/item").then(res => {
+        var newsItems = res.data.data.records;
+        this.$store.commit("changeNewsItems", newsItems);
+        console.log(this.tempItems,"222")
+        this.templateLen(newsItems,this.tempItems)
+      });
+    },
+    getDate(time) {
       let date = new Date(time * 1000);
       let year = date.getFullYear();
       let month =
@@ -91,7 +98,17 @@ export default {
     }
   },
   mounted() {
-    this.getNewsItem();
+    this.getAllItems();
+  },
+  computed: {
+    data() {
+      return this.$store.state.newsItems;
+    }
+  },
+  watch:{
+    tempItems:function(v,ov){
+      console.log(v)
+    }
   }
 };
 </script>

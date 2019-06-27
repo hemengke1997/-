@@ -1,13 +1,8 @@
 <template>
   <div class="pagination">
-    <span
-      class="btn-prev-page"
-      :class="{disabled: currentPage===1}"
-      @click="prevPage"
-    >上一页</span>
-    
-    <ul class="pagination-ul">
+    <span class="btn-prev-page" :class="{disabled: currentPage===1}" @click="prevPage">上一页</span>
 
+    <ul class="pagination-ul">
       <span class="ellipsis" v-show="currentPage>3&&totalPage>5">...</span>
 
       <li
@@ -18,8 +13,10 @@
         @click="turnPage(item)"
       >{{ item }}</li>
 
-    <span class="ellipsis" v-show="(currentPage > 3 && currentPage <= totalPage - 3 || currentPage <= 3) && totalPage > 5">...</span>
-
+      <span
+        class="ellipsis"
+        v-show="(currentPage > 3 && currentPage <= totalPage - 3 || currentPage <= 3) && totalPage > 5"
+      >...</span>
     </ul>
 
     <span class="btn-next-page" :class="{disabled: currentPage === totalPage}" @click="nextPage">下一页</span>
@@ -31,63 +28,76 @@
 export default {
   data() {
     return {
-      maxLength:8,
-      ellipsisFlag:true,
-      tempTotal:[]
+      maxLength: 8,
+      ellipsisFlag: true,
+      tempTotal: [],
+      pageLength: 5
     };
   },
   methods: {
+    // 改变页码的样式
+    changePageStyle() {
+      let current = this.$store.state.currentPage;
+      if (this.totalPage > 5) {
+        if (current >= 3 && current <= this.totalPage - 3) {
+          this.tempTotal = [];
+          for (let i = current - 2; i <= current + 2; i++) {
+            this.tempTotal.push(i);
+          }
+        }
+        if (current > this.totalPage - 3) {
+          this.tempTotal = [];
+          for (let i = this.totalPage - 4; i <= this.totalPage; i++) {
+            this.tempTotal.push(i);
+          }
+        }
+      }
+    },
     nextPage() {
-       if(this.currentPage!=this.totalPage){
-         this.$store.state.currentPage++
-       }
+      if (this.currentPage != this.totalPage) {
+        this.$store.state.currentPage++;
+        this.changePageStyle();
+      }
     },
     prevPage() {
-        if(this.currentPage!=1){
-          this.$store.state.currentPage--
-        }
-    },
-    turnPage(current) {
-      this.$store.commit('turnPage',current)
-      if(current > 3 && current <= this.totalPage - 3) {
-          this.tempTotal = [];
-          for(let i=current-2;i<=current+2;i++){
-            // this.tempTotal.push(current)
-          }
+      if (this.currentPage != 1) {
+        this.$store.state.currentPage--;
+        this.changePageStyle();
       }
     },
-    test(){
- if(this.totalPage > 5){
-        for(var i=1;i<=5;i++){
-           console.log(this)
-          this.tempTotal.push(i)
+    // 换页
+    turnPage(current) {
+      this.$store.commit("turnPage", current);
+      this.changePageStyle()
+      if (current < 3) {
+        this.tempTotal = [];
+        this.pageChanged();
+      }
+    },
+    // 总页数改变时执行
+    pageChanged() {
+      if (this.totalPage > this.pageLength) {
+        for (var i = 1; i <= this.pageLength; i++) {
+          this.tempTotal.push(i);
         }
       } else {
-        for(var i=1;i<=this.totalPage;i++){
-          console.log(this)
-          this.tempTotal.push(i)
+        for (var i = 1; i <= this.totalPage; i++) {
+          this.tempTotal.push(i);
         }
       }
-      
-      console.log(this.tempTotal)
     }
   },
-  computed:{
-    totalPage(){
-      return Math.ceil(this.$store.state.data.length/this.maxLength)
+  computed: {
+    totalPage() {
+      return Math.ceil(this.$store.state.data.length / this.maxLength);
     },
-    currentPage(){
-      return this.$store.state.currentPage
-    },
-
+    currentPage() {
+      return this.$store.state.currentPage;
+    }
   },
-  mounted(){
-      // let pageArr = []
-    // this.test()
-  },
-  watch:{
-    totalPage(){
-      this.test()
+  watch: {
+    totalPage() {
+      this.pageChanged();
     }
   }
 };

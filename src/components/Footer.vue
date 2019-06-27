@@ -65,7 +65,6 @@ a {
   height: 500px;
   background: url("../style/imgs/p5_bg_9831973.png") no-repeat;
   position: relative;
-  margin-top: -5px;
   overflow: hidden;
 }
 .footer .info {

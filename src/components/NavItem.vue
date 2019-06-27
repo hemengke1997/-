@@ -1,6 +1,6 @@
 <template>
     <li>
-      <a :href="Item[index].itemHref">{{ Item[index].title }}</a>
+      <a :href="Item[index].itemHref" class="txt">{{ Item[index].title }}</a>
       <span class="nav_bg active" v-if="!flag"></span>
     </li>
 </template>
@@ -12,5 +12,8 @@ export default {
 </script>
 
 <style>
-
+.txt {
+  font-family: wenyue;
+  font-size: 18px;
+}
 </style>
