@@ -13,8 +13,8 @@ Vue.config.productionTip = false
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
-  router,
   store,
+  router,
   //把App映射为标签
   components: { App },   //在这里注册了组件 因为引入了组件 组件还没有生效 在这里
   // 渲染模板

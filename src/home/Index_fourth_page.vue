@@ -9,7 +9,7 @@
           
         </videobox>
 
-        <Pagination></Pagination>
+        <Pagination :allDatas="allDatas"></Pagination>
       </div>
     </div>
 </template>
@@ -21,7 +21,13 @@ import pagination from './Pagination'
 export default {
     data(){
       return{
-        videoItem:[]
+        videoItem:[],
+        allDatas:{
+            pageName:'index',
+            pageSize:8,
+            dataLength:1,
+            currentPage:1
+        }
       }
     },
     components:{
@@ -29,6 +35,11 @@ export default {
       videobox:videobox,
       Pagination: pagination
     },
+    watch:{
+      dataLength(v,ov) {
+        this.dataLength = v;
+      }
+    }
 }
 </script>
 

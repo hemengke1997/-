@@ -5,6 +5,8 @@ import state from './state';
 import mutations from './mutations'
 import actions from './actions'
 import getters from './getters'
+import createPersistedState from "vuex-persistedstate"
+
 Vue.use(Vuex);
 export default new Vuex.Store({
     // 状态对象
@@ -15,5 +17,18 @@ export default new Vuex.Store({
     // 副作用方法，用于进行逻辑判断，以及拉取数据  可以有异步操作   包含多个对应事件回调函数的对象
     actions,
 
-    getters
+    getters,
+
+    plugins:[
+        createPersistedState({
+            storage:window.sessionStorage,
+            // vuex-persistedstate 默认持久化所有 state，指定需要持久化的 state，配置如下：
+            // 只存储state中的newsItems
+            reducer(val){
+                return {
+                    newsItems: val.newsItems
+                }
+            }
+        })
+    ]
 })

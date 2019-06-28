@@ -3,7 +3,7 @@
     <span class="btn-prev-page" :class="{disabled: currentPage===1}" @click="prevPage">上一页</span>
 
     <ul class="pagination-ul">
-      <span class="ellipsis" v-show="currentPage>3&&totalPage>5">...</span>
+      <span class="ellipsis" v-show="firstSpanShow">...</span>
 
       <li
         class="page-item"
@@ -15,7 +15,7 @@
 
       <span
         class="ellipsis"
-        v-show="(currentPage > 3 && currentPage <= totalPage - 3 || currentPage <= 3) && totalPage > 5"
+        v-show="lastSpanShow"
       >...</span>
     </ul>
 
@@ -26,18 +26,19 @@
 
 <script>
 export default {
+  props:['allDatas'],
   data() {
     return {
-      maxLength: 8,
       ellipsisFlag: true,
       tempTotal: [],
-      pageLength: 5
+      // 页码数量
+      pageLength:5
     };
   },
   methods: {
     // 改变页码的样式
     changePageStyle() {
-      let current = this.$store.state.currentPage;
+      let current = this.currentPage;
       if (this.totalPage > 5) {
         if (current >= 3 && current <= this.totalPage - 3) {
           this.tempTotal = [];
@@ -55,19 +56,28 @@ export default {
     },
     nextPage() {
       if (this.currentPage != this.totalPage) {
-        this.$store.state.currentPage++;
+        
+        if(this.pageName==='index'){
+          this.$store.state.currentPage++;       
+        } else if (this.pageName==='newscenter') {
+          this.$store.state.news_currentPage++;
+        }
         this.changePageStyle();
       }
     },
     prevPage() {
       if (this.currentPage != 1) {
-        this.$store.state.currentPage--;
+        if(this.pageName==='index'){
+          this.$store.state.currentPage--;
+        } else if(this.pageName==='newscenter'){
+          this.$store.state.news_currentPage--;
+        }
         this.changePageStyle();
       }
     },
     // 换页
     turnPage(current) {
-      this.$store.commit("turnPage", current);
+      this.$store.commit("turnPage",{current:current,pageName:this.allDatas.pageName});
       this.changePageStyle()
       if (current < 3) {
         this.tempTotal = [];
@@ -89,22 +99,41 @@ export default {
   },
   computed: {
     totalPage() {
-      return Math.ceil(this.$store.state.data.length / this.maxLength);
+      if(this.allDatas.pageName==='index'){
+        return Math.ceil(this.allDatas.dataLength / this.allDatas.pageSize);
+      } else if (this.allDatas.pageName==='newscenter') {
+        return Math.ceil(this.allDatas.dataLength / this.allDatas.pageSize);
+      }
     },
     currentPage() {
-      return this.$store.state.currentPage;
+      if(this.allDatas.pageName==='index'){
+        return this.$store.state.currentPage;
+      } else if (this.allDatas.pageName==='newscenter') {
+        return this.$store.state.news_currentPage;
+      }
+    },
+    firstSpanShow(){
+      return this.currentPage>3&&this.totalPage>5
+    },
+    lastSpanShow(){
+      return (this.currentPage > 3 && this.currentPage <= this.totalPage - 3 || this.currentPage <= 3) && this.totalPage > 5
     }
   },
   watch: {
     totalPage() {
       this.pageChanged();
     }
+  },
+  mounted(){
+    this.pageChanged()
+    console.log(this.allDatas)
+    console.log(this.$store.state.newsItems.length)
   }
 };
 </script>
 
 
-<style>
+<style scoped>
 .pagination {
   width: 1200px;
   margin: 20px auto;

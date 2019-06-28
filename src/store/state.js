@@ -4,5 +4,6 @@ export default {
     currentPage:1,
 
     // 首页新闻tab模块
-    newsItems:[]
+    newsItems:[],
+    news_currentPage:1
 }

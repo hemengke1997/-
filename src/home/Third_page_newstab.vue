@@ -52,7 +52,7 @@ export default {
       ItemLength: 0,
       flag: false,
       isActive: 0,
-      tempItems: [1,2,2]
+      tempItems: []
     };
   },
   methods: {
@@ -77,14 +77,6 @@ export default {
         this.templateLen(this.tempItems,this.tempItems)
       }
     },
-    getAllItems() {
-      this.$axios.get("http://api.paopao.vip/news/item").then(res => {
-        var newsItems = res.data.data.records;
-        this.$store.commit("changeNewsItems", newsItems);
-        console.log(this.tempItems,"222")
-        this.templateLen(newsItems,this.tempItems)
-      });
-    },
     getDate(time) {
       let date = new Date(time * 1000);
       let year = date.getFullYear();
@@ -98,18 +90,13 @@ export default {
     }
   },
   mounted() {
-    this.getAllItems();
+    this.getNewsItem()
   },
   computed: {
     data() {
       return this.$store.state.newsItems;
     }
   },
-  watch:{
-    tempItems:function(v,ov){
-      console.log(v)
-    }
-  }
 };
 </script>
 

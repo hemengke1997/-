@@ -1,10 +1,14 @@
 
 export default {
-    changeData(state,msg){  
+    changeData(state,msg){ 
         state.data = msg
     },
-    turnPage(state,msg){
-        state.currentPage = msg
+    turnPage(state,{current,pageName}){
+        if(pageName==='index'){
+            state.currentPage = current
+        } else if(pageName==='newscenter'){
+            state.news_currentPage = current
+        }
     },
     changeNewsItems(state,msg) {
         state.newsItems = msg

@@ -29,19 +29,19 @@ export default {
     return {
       Item: [
         {
-          itemHref: "/",
+          itemHref: "/index",
           title: "首页"
         },
         {
-          itemHref: "/newsCenter",
+          itemHref: "/newscenter",
           title: "新闻中心"
         },
         {
-          itemHref: "gameintroduce.html",
+          itemHref: "/gameintroduce",
           title: "游戏介绍"
         },
         {
-          itemHref: "shoppingmall.html",
+          itemHref: "/shoppingmall",
           title: "泡泡商城"
         },
         {
