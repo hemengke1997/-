@@ -1,6 +1,0 @@
-# 忽略以下的检查
-
-/build/
-/config/
-/dist/
-/*.js
