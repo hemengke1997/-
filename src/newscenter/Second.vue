@@ -6,7 +6,7 @@
           v-for="(item, index) in tab"
           :key="index"
           :class="['tab_li',{active:11}]"
-          @click="getNewsItem(item.name_ch)"
+          @click="getNewsItem(item.name_ch,item.id)" :data-id="item.id"
         >
           <span class="name_en">{{ item.name_en }}</span>
           <div class="name_box">
@@ -25,7 +25,20 @@
           :key="index"
           @mouseenter="enter(index)"
           @mouseleave="leave()"
-        >
+        > 
+       <div :class="['news',{active:newsActive==index}]">
+            <div class="news_text">
+              <div class="news_logo">{{ item.type }}</div>
+              <div class="news_body">
+                <div class="news_title">{{ item.name }}</div>
+                <div class="news_content">{{ item.description }}</div>
+              </div>
+            </div>
+            <div class="news_date" v-show="newsActive!=index">{{ getDate(item.itime) }}</div>
+            <div class="news_arrow" v-show="newsActive===index"></div>
+          </div>
+
+
           <!-- 路由 -->
         </li>
       </ul>
@@ -38,9 +51,9 @@ export default {
   data() {
     return {
       tab: [
-        { name_ch: "最新", name_en: "NEW" },
-        { name_ch: "新闻", name_en: "NEWS" },
-        { name_ch: "公告", name_en: "NOTICE" }
+        { name_ch: "最新", name_en: "NEW",id:1},
+        { name_ch: "新闻", name_en: "NEWS" ,id:2},
+        { name_ch: "公告", name_en: "NOTICE" ,id:3}
       ],
       tempItems: [],
       pageSize: 5,
@@ -48,21 +61,25 @@ export default {
     };
   },
   methods: {
-    getNewsItem(type) {debugger
-      if (type === undefined || type === "最新") {
+    getNewsItem(id) {
+      if (id === undefined || type === 1) {
+        this.$axios.get("http://api.paopao.vip/news/item?limit=5&page=1").then(res=>{
+          // 获取新闻
+        })
         this.tempItems = this.data;
-       // this.templateLen(this.data, this.tempItems);
-      } else {
-        this.tempItems = this.data.filter(item => {
-          return item.type === type;
-        });
-       // this.templateLen(this.tempItems, this.tempItems);
+      } else if (id === 2){
+        this.$axios.get("http://api.paopao.vip/news/item?limit=5&page=1").then(res=>{
+          // 获取新闻
+        })
+      } else if (id === 3) {
+        this.$axios.get("http://api.paopao.vip/?limit=5&page=1").then(res=>{
+          // 获取公告
+        })
       }
     },
     templateLen(x, y) {
       let len = x.length > this.pageSize ? this.pageSize : x.length;
       y = x.slice(0, len);
-     // this.tempItems = y;
     },
     getDate(time) {
       let date = new Date(time * 1000);
@@ -76,8 +93,7 @@ export default {
       return year + "-" + month + "-" + day;
     },
     enter(index) {
-      console.log(index,'1');
-      console.log(this.tempItems,'222')
+
       this.newsActive = index;
     },
     leave() {
@@ -85,11 +101,9 @@ export default {
     },
     changeView() {
       this.tempItems = [];
-      console.log(this.data)
-      for (let i = 0; i < this.pageSize; i++) {
+      for (let i = 0; i < this.data.length; i++) {
         this.tempItems.push(this.data[i]);
       }
-      console.log(this.tempItems,"222ssss")
     }
   },
   mounted() {
@@ -106,7 +120,6 @@ export default {
   watch: {
       data(val,oldVal){
           this.changeView()
-          console.log("nanshou")
       },
       
   }
