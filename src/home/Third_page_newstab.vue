@@ -87,7 +87,7 @@ export default {
       let day =
         date.getDay() >= 10 ? date.getDay() : "0" + date.getDay().toString();
       return month + "-" + day;
-    }
+    },
   },
   mounted() {
     this.getNewsItem()
@@ -97,6 +97,11 @@ export default {
       return this.$store.state.newsItems;
     }
   },
+  watch:{
+    data(){
+      this.getNewsItem()
+    }
+  }
 };
 </script>
 

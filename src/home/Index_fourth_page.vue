@@ -24,9 +24,8 @@ export default {
         videoItem:[],
         allDatas:{
             pageName:'index',
-            pageSize:8,
-            dataLength:1,
-            currentPage:1
+            limit:8,
+            length:this.count,
         }
       }
     },
@@ -36,11 +35,25 @@ export default {
       Pagination: pagination
     },
     watch:{
-      dataLength(v,ov) {
-        this.dataLength = v;
+      count() {
+        // console.log(this.$store.state.videoCount,"222")
+        this.allDatas.length = this.count;
+        // console.log(this.allDatas.ll,"55555")
+      }
+    },
+    mounted(){
+      // console.log(this.$store.state.videoCount,"111");
+      // console.log(this.allDatas.ll,"44")
+    },
+    computed:{
+      count(){
+        // console.log(this.$store.state.videoCount,"333")
+        // console.log(this.allDatas.ll,"44")
+        return this.$store.state.videoCount;
       }
     }
 }
+
 </script>
 
 <style>

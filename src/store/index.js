@@ -19,16 +19,16 @@ export default new Vuex.Store({
 
     getters,
 
-    plugins:[
-        createPersistedState({
-            storage:window.sessionStorage,
-            // vuex-persistedstate 默认持久化所有 state，指定需要持久化的 state，配置如下：
-            // 只存储state中的newsItems
-            reducer(val){
-                return {
-                    newsItems: val.newsItems
-                }
-            }
-        })
-    ]
+    // plugins:[
+    //     createPersistedState({
+    //         storage:window.sessionStorage,
+    //         // vuex-persistedstate 默认持久化所有 state，指定需要持久化的 state，配置如下：
+    //         // 只存储state中的newsItems
+    //         reducer(val){
+    //             return {
+    //                 newsItems: val.newsItems
+    //             }
+    //         }
+    //     })
+    // ]
 })

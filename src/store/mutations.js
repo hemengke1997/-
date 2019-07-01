@@ -1,16 +1,22 @@
 
 export default {
-    changeData(state,msg){ 
-        state.data = msg
+    changeData(state,payload){ 
+        state.data = payload.records;
+        state.videoCount = payload.count;
+        state.videoTotalPage = payload.totalPage;
+        state.currentPage = payload.current;
     },
-    turnPage(state,{current,pageName}){
-        if(pageName==='index'){
-            state.currentPage = current
-        } else if(pageName==='newscenter'){
-            state.news_currentPage = current
+    turnPage(state,payload){
+        if(payload.pageName==='index'){
+            state.currentPage = payload.current
+        } else if(payload.pageName==='newscenter'){
+            state.news_currentPage = payload.current
         }
     },
-    changeNewsItems(state,msg) {
-        state.newsItems = msg
+    changeNewsItems(state,payload) {
+        state.newsItems = payload.records;
+        state.newsCount= payload.count;
+        state.newsTotalPage = payload.totalPage;
+        state.news_currentPage = payload.current;
     }
 }

@@ -1,9 +1,13 @@
 export default {
     // 视频分页模块
     data:[],
-    currentPage:1,
+    currentPage:0,
+    videoCount:0,
+    videoTotalPage:1,
 
     // 首页新闻tab模块
     newsItems:[],
-    news_currentPage:1
+    news_currentPage:0,
+    newsCount:0,
+    newsTotalPage:1
 }

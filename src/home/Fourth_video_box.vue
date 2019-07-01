@@ -22,9 +22,8 @@ export default {
   },
   methods: {
     ajax() {
-        let len = this.videoItem.length > this.pageSize ? this.pageSize : this.videoItem.length;
+        let len = this.count > this.pageSize ? this.pageSize : this.count;
         this.tempItem = this.videoItem.slice(0, len);
-      //  console.log(this.tempItem)
     },
     // 点击分页按钮的时候，改变视图
     changeView(current) {
@@ -40,27 +39,29 @@ export default {
     }
   },
   computed: {
+    // 视频项目
     videoItem() {
-      console.log(this.$store.state.data)
       return this.$store.state.data;
     },
+    // 当前页
     currentPage() {
       return this.$store.state.currentPage;
+    },
+    // 视频总数
+    count() {
+      return this.$store.state.videoCount;
     }
   },
   watch: {
     currentPage(val, oldval) {
       this.changeView(val);
     },
-    // videoItem(val,oldval){
-    //   this.ajax()
-    // }
-  },
-  updated(){
- this.ajax();
+    videoItem(v,ov) {
+      this.ajax()
+    }
   },
   mounted() {
-   
+     this.ajax();
   }
 };
 </script>

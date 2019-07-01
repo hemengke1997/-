@@ -56,21 +56,25 @@ export default {
     },
     nextPage() {
       if (this.currentPage != this.totalPage) {
-        
-        if(this.pageName==='index'){
-          this.$store.state.currentPage++;       
-        } else if (this.pageName==='newscenter') {
+        if(this.allDatas.logpageName==='index'){
+          this.$store.state.currentPage++;
+          this.ajaxVideoItems(this.currentPage)
+          
+        } else if (this.allDatas.pageName==='newscenter') {
           this.$store.state.news_currentPage++;
+          this.ajaxNewsItems(this.currentPage)
         }
         this.changePageStyle();
       }
     },
     prevPage() {
       if (this.currentPage != 1) {
-        if(this.pageName==='index'){
+        if(this.allDatas.pageName==='index'){
           this.$store.state.currentPage--;
-        } else if(this.pageName==='newscenter'){
+          this.ajaxVideoItems(this.currentPage)
+        } else if(this.allDatas.pageName==='newscenter'){
           this.$store.state.news_currentPage--;
+          this.ajaxNewsItems(this.currentPage)
         }
         this.changePageStyle();
       }
@@ -86,6 +90,7 @@ export default {
     },
     // 总页数改变时执行
     pageChanged() {
+      this.tempTotal = [];
       if (this.totalPage > this.pageLength) {
         for (var i = 1; i <= this.pageLength; i++) {
           this.tempTotal.push(i);
@@ -95,14 +100,26 @@ export default {
           this.tempTotal.push(i);
         }
       }
-    }
+    },
+    // 获取第currnet页视频列表
+    ajaxVideoItems(current){
+      this.$axios.get("http://api.paopao.vip/strategy/video?limit=8&page="+current).then(res => {
+        this.$store.commit("changeData", {records:res.data.data.records,count:res.data.data.count,totalPage:res.data.data.total_page,current:current});
+      });
+    },
+     // 获取第current页的新闻列表
+    ajaxNewsItems(current){
+      this.$axios.get("http://api.paopao.vip/news/item?limit=5&page="+current).then(res => {
+        this.$store.commit("changeNewsItems", {records:res.data.data.records,count:res.data.data.count,totalPage:res.data.data.total_page,current:current});
+      });
+    },
   },
   computed: {
-    totalPage() {
+    totalPage() {       
       if(this.allDatas.pageName==='index'){
-        return Math.ceil(this.allDatas.dataLength / this.allDatas.pageSize);
+        return this.$store.state.videoTotalPage;
       } else if (this.allDatas.pageName==='newscenter') {
-        return Math.ceil(this.allDatas.dataLength / this.allDatas.pageSize);
+        return this.$store.state.newsTotalPage;
       }
     },
     currentPage() {
@@ -120,14 +137,15 @@ export default {
     }
   },
   watch: {
-    totalPage() {
+    totalPage(v,ov) {
       this.pageChanged();
-    }
+    },
+    
   },
   mounted(){
     this.pageChanged()
-    console.log(this.allDatas)
-    console.log(this.$store.state.newsItems.length)
+    this.ajaxVideoItems(1)
+    this.ajaxNewsItems(1)
   }
 };
 </script>
