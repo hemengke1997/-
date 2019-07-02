@@ -56,39 +56,26 @@ export default {
     },
     nextPage() {
       if (this.currentPage != this.totalPage) {
-        if(this.allDatas.logpageName==='index'){
-          this.$store.state.currentPage++;
-          this.ajaxVideoItems(this.currentPage)
-          
-        } else if (this.allDatas.pageName==='newscenter') {
-          this.$store.state.news_currentPage++;
-          this.ajaxNewsItems(this.currentPage)
-        }
+        this.$store.state.currentPage++;
         this.changePageStyle();
       }
     },
     prevPage() {
       if (this.currentPage != 1) {
-        if(this.allDatas.pageName==='index'){
-          this.$store.state.currentPage--;
-          this.ajaxVideoItems(this.currentPage)
-        } else if(this.allDatas.pageName==='newscenter'){
-          this.$store.state.news_currentPage--;
-          this.ajaxNewsItems(this.currentPage)
-        }
+        this.$store.state.currentPage--;
         this.changePageStyle();
       }
     },
-    // 换页
+    // 点击页码时的效果
     turnPage(current) {
-      this.$store.commit("turnPage",{current:current,pageName:this.allDatas.pageName});
+      this.$store.state.currentPage = current;
       this.changePageStyle()
       if (current < 3) {
         this.tempTotal = [];
         this.pageChanged();
       }
     },
-    // 总页数改变时执行
+    // 总页数改变时执行  改变分页器的样式
     pageChanged() {
       this.tempTotal = [];
       if (this.totalPage > this.pageLength) {
@@ -100,34 +87,15 @@ export default {
           this.tempTotal.push(i);
         }
       }
-    },
-    // 获取第currnet页视频列表
-    ajaxVideoItems(current){
-      this.$axios.get("http://api.paopao.vip/strategy/video?limit=8&page="+current).then(res => {
-        this.$store.commit("changeData", {records:res.data.data.records,count:res.data.data.count,totalPage:res.data.data.total_page,current:current});
-      });
-    },
-     // 获取第current页的新闻列表
-    ajaxNewsItems(current){
-      this.$axios.get("http://api.paopao.vip/news/item?limit=5&page="+current).then(res => {
-        this.$store.commit("changeNewsItems", {records:res.data.data.records,count:res.data.data.count,totalPage:res.data.data.total_page,current:current});
-      });
-    },
-  },
+    }, 
+},
+  
   computed: {
     totalPage() {       
-      if(this.allDatas.pageName==='index'){
-        return this.$store.state.videoTotalPage;
-      } else if (this.allDatas.pageName==='newscenter') {
-        return this.$store.state.newsTotalPage;
-      }
+      return this.$store.state.totalPage;
     },
     currentPage() {
-      if(this.allDatas.pageName==='index'){
-        return this.$store.state.currentPage;
-      } else if (this.allDatas.pageName==='newscenter') {
-        return this.$store.state.news_currentPage;
-      }
+      return this.$store.state.currentPage;
     },
     firstSpanShow(){
       return this.currentPage>3&&this.totalPage>5
@@ -144,8 +112,6 @@ export default {
   },
   mounted(){
     this.pageChanged()
-    this.ajaxVideoItems(1)
-    this.ajaxNewsItems(1)
   }
 };
 </script>

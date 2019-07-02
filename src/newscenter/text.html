@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app"></div>
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script>
+new Vue({
+    el: "#app",
+    data:{
+        bet:{
+            first:'11',
+            last:'22'
+        }
+    },
+    watch:{
+        bet:{
+            handler(v,ov) {
+                console.log(this,"当前值")
+            },
+            deep:true
+        }
+    },
+    methods:{
+        A(){
+            this.bet.last = '22222'
+        }
+    },
+    mounted(){
+        this.A()
+    }
+})
+
+
+</script>
+</html>

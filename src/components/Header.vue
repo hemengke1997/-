@@ -4,7 +4,10 @@
       <NavLogo/>
       <nav class="navigation">
         <ul>
-          <NavItem v-for="(item, index) in Item" :key="index" :Item="Item" :index="index"></NavItem>
+          <li v-for="(item, index) in Item" :key="index">
+            <a :href="item.itemHref" class="txt">{{ item.title }}</a>
+            <span :class="['nav_bg',{active:index === isActive}]"></span>
+          </li>
         </ul>
       </nav>
     </header>
@@ -13,7 +16,9 @@
         <NavLogo/>
         <nav class="navigation_scroll">
           <ul>
-            <NavItem :flag="flag" :Item="Item" v-for="(item, index) in Item" :key="index" :index="index"></NavItem>
+            <li v-for="(item, index) in Item" :key="index">
+              <a :href="item.itemHref" :class="['txt',{active:index === isActive}]">{{ item.title }}</a>
+            </li>
           </ul>
         </nav>
       </div>
@@ -23,37 +28,58 @@
 
 <script>
 import NavLogo from "./NavLogo"
-import NavItem from "./NavItem"
 export default {
   data() {
     return {
       Item: [
         {
           itemHref: "/index",
-          title: "首页"
+          title: "首页",
+          id:0
         },
         {
           itemHref: "/newscenter",
-          title: "新闻中心"
+          title: "新闻中心",
+          id:1
         },
         {
           itemHref: "/gameintroduce",
-          title: "游戏介绍"
+          title: "游戏介绍",
+          id:2
         },
         {
           itemHref: "/shoppingmall",
-          title: "泡泡商城"
+          title: "泡泡商城",
+          id:3
         },
         {
           itemHref: "#",
-          title: "活动专区"
+          title: "活动专区",
+          id:4
         }
-      ]
+      ],
+      isActive: -1
     };
+  },
+  computed:{
+     path(){
+        return this.$route.path.toLowerCase();
+      }
+  },
+  mounted(){
+      this.check()
+    },
+    methods:{
+      check(){
+        this.Item.forEach(item=>{
+          if(item.itemHref===this.path){
+            this.isActive = item.id
+          }
+        })     
+      }
   },
   props: ["flag"],
   components: {
-    NavItem,
     NavLogo
   }
 };
@@ -143,10 +169,10 @@ a {
   color: #fff;
 }
 .navigation_scroll a:hover {
-  color: #000;
+  color: #ffcc01;
 }
-.navigation_scroll .active {
-  color: #eaba02;
+.navigation_scroll a.active {
+  color: #ffcc01;
 }
 .navigation_scroll ul li {
   float: left;
@@ -158,6 +184,10 @@ a {
   background: rgba(0, 0, 0, 0.5);
   position: fixed;
   z-index: 99;
+}
+.txt {
+  font-family: wenyue;
+  font-size: 18px;
 }
 /* header结束 */
 </style>

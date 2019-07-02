@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '../home/Index_main.vue'
 import newsCenter from '../newscenter/Newscenter_main.vue';
+import newsDetails from '../newscenter/NewsDetails.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -15,7 +16,15 @@ export default new Router({
     {
       path: '/newscenter',
       name: 'newsCenter',
-      component : newsCenter
-    }
+      component : newsCenter,
+      children:[
+        {
+          path:'newsdetails',
+          name: 'newsDetails',
+          component: newsDetails
+        }
+      ]
+    },
+    
   ]
 })

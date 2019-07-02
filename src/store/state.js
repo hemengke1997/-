@@ -1,13 +1,17 @@
 export default {
-    // 视频分页模块
+    // 视频
+    video:[],
+    // 新闻
+    news:[],
+    // 公告
+    notice:[],
+    // 公用新闻和公告
     data:[],
-    currentPage:0,
-    videoCount:0,
-    videoTotalPage:1,
 
-    // 首页新闻tab模块
-    newsItems:[],
-    news_currentPage:0,
-    newsCount:0,
-    newsTotalPage:1
+    // 当前页
+    currentPage:0,
+    // 总记录数
+    count:0,
+    // 总页数
+    totalPage:0, 
 }

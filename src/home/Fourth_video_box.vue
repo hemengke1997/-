@@ -21,47 +21,37 @@ export default {
     };
   },
   methods: {
-    ajax() {
-        let len = this.count > this.pageSize ? this.pageSize : this.count;
-        this.tempItem = this.videoItem.slice(0, len);
+    getVideoItem(currentPage){
+      this.$axios.get("http://api.paopao.vip/strategy/video?limit=8&page="+currentPage).then(res=>{
+        this.tempItem = res.data.data.records;
+        this.$store.commit("changeVideo",res.data.data.records);
+        this.$store.commit("changeOther",{currentPage:currentPage,count:res.data.data.count,totalPage:res.data.data.total_page})
+      })
     },
     // 点击分页按钮的时候，改变视图
     changeView(current) {
       this.tempItem = [];
-      let start = (current - 1) * this.pageSize + 1;
-      let end =
-        current * this.pageSize > this.videoItem.length
-          ? this.videoItem.length
-          : current * this.pageSize;
-      for (let i = start; i <= end; i++) {
-        this.tempItem.push(this.videoItem[i - 1]);
+      for (let i = 0; i < this.video.length ; i++) {
+        this.tempItem.push(this.video[i]);
       }
     }
   },
   computed: {
-    // 视频项目
-    videoItem() {
-      return this.$store.state.data;
-    },
     // 当前页
     currentPage() {
       return this.$store.state.currentPage;
     },
-    // 视频总数
-    count() {
-      return this.$store.state.videoCount;
+    video() {
+      return this.$store.state.video;
     }
   },
   watch: {
-    currentPage(val, oldval) {
-      this.changeView(val);
+    currentPage() {
+      this.changeView();
     },
-    videoItem(v,ov) {
-      this.ajax()
-    }
   },
   mounted() {
-     this.ajax();
+     this.getVideoItem(1);
   }
 };
 </script>

@@ -4,7 +4,7 @@
     <!-- 3.使用组件 -->
     <Header :flag = "flag"/>
     <router-view/>
-    <Footer/>
+    <Footer v-if="!path"/>
   </div>
 </template>
 
@@ -34,6 +34,11 @@ export default {
     window.addEventListener('scroll',this.handlerScroll)
 
   },
+  computed:{
+    path(){
+      return this.$route.path.toLowerCase().indexOf('newscenter') != -1;
+    }
+  }
 }
 </script>
 

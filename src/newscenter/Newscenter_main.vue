@@ -1,8 +1,10 @@
 <template>
     <div class="dstyle">
         <First></First>
-        <Second></Second>
-        <Pagination class="page" :allDatas="allDatas"></Pagination>
+
+        <Second v-if="path"></Second>
+        <router-view></router-view>
+        <Pagination class="page" v-if="path"></Pagination>
     </div>
 </template>
 
@@ -10,27 +12,43 @@
 import First from './First'
 import Second from './Second'
 import Pagination from '../home/Pagination'
+
+
 export default {
     components:{
         First,
         Second,
-        Pagination
+        Pagination,
     },
     data(){
         return{
-            allDatas:{
-                pageName:'newscenter',
-                pageSize:5,
-                dataLength:this.$store.state.newsItems.length,
-                currentPage:1
-            },
+        
         }
+    },
+    computed:{
+        path(){
+            return this.$route.path.toLowerCase() === '/newscenter';
+        }
+    },
+    mounted(){
+       
     }
 }
 
 </script>
 
 <style>
+* {
+  padding: 0;
+  margin: 0;
+}
+ul {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+  color: #000
+}
 .dstyle {
     position: relative;
 }

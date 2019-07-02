@@ -7,7 +7,7 @@
           v-for="(item,index) in tabItem"
           :key="index"
           :class="{active:index===isActive}"
-          @click="clickNewsTab(item.ch,index)"
+          @click="clickNewsTab(item.id,index)"
         >
           <span class="news_en">{{ item.en }}</span>
           <span class="news_ch">{{ item.ch }}</span>
@@ -16,7 +16,7 @@
     </div>
 
     <div class="news_box">
-      <span class="look_more" :type="tabItem[isActive].ch"></span>
+      <span class="look_more" :id="tabItem[isActive].id"></span>
       <ul class="news_ul">
         <li
           class="news_item"
@@ -24,7 +24,7 @@
           :key="index"
           :id="item._id"
           :typeid="item.type_id"
-          @click="enterItem(id)"
+          @click="enterItem(item._id)"
         >
           <span class="news_icon">{{ item.type }}</span>
           <div class="news">
@@ -44,9 +44,9 @@ export default {
   data() {
     return {
       tabItem: [
-        { en: "NEW", ch: "最新" },
-        { en: "NEWS", ch: "新闻" },
-        { en: "NOTICE", ch: "公告" }
+        { en: "NEW", ch: "最新" ,id:1},
+        { en: "NEWS", ch: "新闻" ,id:2},
+        { en: "NOTICE", ch: "公告" ,id:3}
       ],
       maxLength: 5,
       ItemLength: 0,
@@ -56,25 +56,24 @@ export default {
     };
   },
   methods: {
-    enterItem() {},
-    clickNewsTab(type, index) {
-      this.getNewsItem(type);
+    enterItem(id) {},
+    clickNewsTab(id, index) {
+      this.getNewsItem(id);
       this.isActive = index;
     },
-    templateLen(x,y){
-      let len = x.length > this.maxLength ? this.maxLength : x.length;
-      y = x.slice(0, len);
-      this.tempItems = y;
-    },
-    getNewsItem(type) {
-      if (type === undefined || type === "最新") {
-        this.tempItems = this.data
-        this.templateLen(this.data,this.tempItems) 
-      } else {
-        this.tempItems = this.data.filter(item => {
-          return item.type === type;
-        });
-        this.templateLen(this.tempItems,this.tempItems)
+    getNewsItem(id) {
+      if (id===1) {
+        this.$axios.get("http://api.paopao.vip/news/item?limit=5&page=1").then(res=>{
+          this.tempItems = res.data.data.records;
+        })
+      } else if(id===2){
+        this.$axios.get("http://api.paopao.vip/news/item?limit=5&page=1").then(res=>{
+          this.tempItems = res.data.data.records;
+        })
+      } else if (id ===3) {
+        this.$axios.get("http://api.paopao.vip/notice/item?limit=5&page=1").then(res=>{
+          this.tempItems = res.data.data.records;
+        })
       }
     },
     getDate(time) {
@@ -90,17 +89,14 @@ export default {
     },
   },
   mounted() {
-    this.getNewsItem()
+    this.getNewsItem(1)
   },
   computed: {
     data() {
-      return this.$store.state.newsItems;
-    }
+      return this.$store.state.data;
+    },
   },
   watch:{
-    data(){
-      this.getNewsItem()
-    }
   }
 };
 </script>
