@@ -187,7 +187,6 @@ a {
 .carousel .carousel_ul {
   display: flex;
   position: absolute;
-  left: -600px;
   top: 0;
 }
 .carousel .carousel_ul .carousel_item img {

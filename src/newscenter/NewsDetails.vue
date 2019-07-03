@@ -2,19 +2,19 @@
   <div>
     <div class="head_box">
       <div class="title_box">
-        <span class="back_arrow">返回</span>
-        <h1 class="h1">{{item.title}}</h1>
+        <span class="back_arrow" @click="goback()">返回</span>
+        <h1 class="h1">{{item.name}}</h1>
         <div class="detail">
-          <span class="news">{{}}</span>
-          <span class="date">2019-06-02</span>
-          <span class="times">浏览次数:5次</span>
+          <span class="news">{{item.type}}</span>
+          <span class="date">{{getDate(item.itime)}}</span>
+          <span class="times">浏览次数:{{ item.read_count }}次</span>
         </div>
       </div>
     </div>
     <div class="body_box">
-      <p class="content">内容</p>
+      <p class="content" v-html="item.content">{{item.content}}</p>
       <div class="cont_img">
-        <img src alt />
+        <img :src="item.pic" alt />
       </div>
     </div>
   </div>
@@ -25,41 +25,81 @@ export default {
   data() {
     return {
       item: {
-        // title:"",
-        // type:"",
-        // date:"",
-        // times:0,
-        // content:"",
-        // imgsrc:""
-      }
-    };
+        name:'',
+        pic:'',
+        content:'',
+        read_count:1,
+        pos:0,
+        itime:1560238205,
+        title:'',
+        keywords:'',
+        description:'',
+        type:''
+      },
+
+    }
   },
   methods: {
-    ajax(id) {
-        // const _this = this;
-        const p = ()=> {
-        return new Promise((resolve, reject)=>{
-        this.$axios
-            .get("http://api.paopao.vip/news/item/one?id=" + id)
-            .then(res => {
-              let data = res.data.data;
-              resolve(data)
-              console.log(this)
-            });
+    ajax(id,typeid) {
+      const p = this.promise("http://api.paopao.vip/news/type");
+
+      // 新闻
+      const p1 = this.promise("http://api.paopao.vip/news/item/one?id="+id);
+      // 公告
+      const p2 = this.promise("http://api.paopao.vip/notice/item/one?id="+id);
+
+      p.then(data=>{
+        (data.records).forEach(el => {
+          if(el._id === typeid){
+            this.item.type = el.type;
+          }
         });
-      };
-      p().then(val=>{
-          console.log(this,'111')
+        if(this.item.type==='新闻'){
+          return p1
+        } else if (this.item.type==='公告'){
+          return p2
+        }
+      }).then(data=>{
+        this.item.name = data.name;
+        this.item.content = data.content;
+        this.item.pic = data.pic;
+        this.item.itime = data.itime;
+        this.item.read_count = data.read_count;
+        // this.$set(this.item,this.item.type,data.type)
       })
+    },
+    promise(url){
+      return new Promise((resolve,reject)=>{
+        this.$axios.get(url).then(res=>{
+          resolve(res.data.data)
+        })
+      })
+    },
+    getDate(time) {
+      let date = new Date(time * 1000);
+      let year = date.getFullYear();
+      let month =
+        date.getMonth() + 1 >= 10
+          ? date.getMonth() + 1
+          : "0" + (date.getMonth() + 1).toString();
+      let day =
+        date.getDay() >= 10 ? date.getDay() : "0" + date.getDay().toString();
+      return year + "-" + month + "-" + day;
+    },
+    goback(){
+      this.$router.go(-1);
     }
   },
   computed: {
     id() {
       return this.$route.query.id;
+    },
+    typeid() {
+      return this.$route.query.typeid;
     }
   },
   mounted() {
-    this.ajax(this.id);
+    this.ajax(this.id,this.typeid);
   }
 };
 </script>

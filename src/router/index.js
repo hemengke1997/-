@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from '../home/Index_main.vue'
 import newsCenter from '../newscenter/Newscenter_main.vue';
 import newsDetails from '../newscenter/NewsDetails.vue'
+import gameIntroduce from '../gameintroduce/Game_main.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -25,6 +26,10 @@ export default new Router({
         }
       ]
     },
-    
+    {
+      path: '/gameintroduce',
+      name: 'gameIntroduce',
+      component: gameIntroduce
+    }
   ]
 })

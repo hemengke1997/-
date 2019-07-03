@@ -7,11 +7,15 @@
 
 <script>
 export default {
-    
+    computed:{
+
+    },
+    mounted(){
+    }
 }
 </script>
 
-<style sco>
+<style scoped>
 .first {
     width: 100%;
     height: 360px;

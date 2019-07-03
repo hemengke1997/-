@@ -33,7 +33,7 @@
           :data-id="item._id"
           :data-type="item.type_id"
         > 
-        <router-link :to="{path:'newscenter/newsdetails',query:{ id: item._id}}">
+        <router-link :to="{path:'newscenter/newsdetails',query:{ id: item._id,typeid:item.type_id}}">
           <div :class="['news',{active:newsActive==index}]">
             <div class="news_text">
               <div class="news_logo">{{ item.type }}</div>

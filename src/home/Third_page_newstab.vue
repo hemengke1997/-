@@ -24,13 +24,14 @@
           :key="index"
           :id="item._id"
           :typeid="item.type_id"
-          @click="enterItem(item._id)"
         >
-          <span class="news_icon">{{ item.type }}</span>
-          <div class="news">
-            <span class="news_content">{{ item.description }}</span>
-            <span class="news_date">{{ getDate(item.itime) }}</span>
-          </div>
+          <router-link :to="{path:'newscenter/newsdetails',query:{id:item._id,typeid:item.type_id}}" class="link">
+            <span class="news_icon">{{ item.type }}</span>
+            <div class="news">
+              <span class="news_content">{{ item.description }}</span>
+              <span class="news_date">{{ getDate(item.itime) }}</span>
+            </div>
+          </router-link>
         </li>
       </ul>
     </div>
@@ -111,5 +112,12 @@ export default {
 }
 .news_item:hover .news_icon {
   background-color: #fff;
+}
+.link {
+  display: flex;
+  width: 470px;
+  height: 60px;
+  align-items: center;
+  color: #000;
 }
 </style>

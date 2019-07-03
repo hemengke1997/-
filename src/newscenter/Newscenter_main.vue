@@ -1,6 +1,6 @@
 <template>
     <div class="dstyle">
-        <First></First>
+        <newsFirst v-if="first"></newsFirst>
 
         <Second v-if="path"></Second>
         <router-view></router-view>
@@ -9,14 +9,14 @@
 </template>
 
 <script>
-import First from './First'
+import newsFirst from './News_First'
 import Second from './Second'
 import Pagination from '../home/Pagination'
 
 
 export default {
     components:{
-        First,
+        newsFirst,
         Second,
         Pagination,
     },
@@ -28,10 +28,13 @@ export default {
     computed:{
         path(){
             return this.$route.path.toLowerCase() === '/newscenter';
+        },
+        first(){
+            return this.$route.path.toLowerCase().indexOf('/newscenter')!=-1
         }
     },
     mounted(){
-       
+       console.log(this.$route.path)
     }
 }
 
