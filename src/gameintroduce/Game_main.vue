@@ -6,25 +6,27 @@
         <div class="bubble"></div>
         <second></second>
         <third></third>
+        <fourth></fourth>
     </div>
 </template>
 
 <script>
 import second from './Second'
 import third from './Thrid'
+import fourth from './Fourth'
 export default {
     components:{
         second,
-        third
+        third,
+        fourth
     }
 }
 </script>
 
-<style>
+<style scoped>
 .main {
     width: 100%;
     background: url("../style/imgs/intro_bg.png") no-repeat;
-    overflow: hidden;
 }
 .first {
     width: 1200px;

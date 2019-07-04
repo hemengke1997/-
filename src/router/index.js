@@ -4,6 +4,8 @@ import Home from '../home/Index_main.vue'
 import newsCenter from '../newscenter/Newscenter_main.vue';
 import newsDetails from '../newscenter/NewsDetails.vue'
 import gameIntroduce from '../gameintroduce/Game_main.vue'
+import shoppingMall from '../shopping/Shop_main.vue';
+
 Vue.use(Router)
 
 export default new Router({
@@ -30,6 +32,11 @@ export default new Router({
       path: '/gameintroduce',
       name: 'gameIntroduce',
       component: gameIntroduce
+    },
+    {
+      path: '/shoppingmall',
+      name: shoppingMall,
+      component:shoppingMall
     }
   ]
 })

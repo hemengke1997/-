@@ -65,7 +65,6 @@ export default {
         this.item.pic = data.pic;
         this.item.itime = data.itime;
         this.item.read_count = data.read_count;
-        // this.$set(this.item,this.item.type,data.type)
       })
     },
     promise(url){
