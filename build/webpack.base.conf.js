@@ -17,11 +17,16 @@ module.exports = {
     app: './src/main.js'
   },
   output: {
-    path: config.build.assetsRoot,
+    path: config.build.assetsRoot,  // path.resolve(__dirname, '../dist'),
     filename: '[name].js',
+    //  publicPath： 对于加载外部资源(external resources)（如图片、文件等）来说，output.publicPath 是很重要的选项。如果指定了一个错误的值，则在加载这些资源时会收到 404 错误。
     publicPath: process.env.NODE_ENV === 'production'
-      ? config.build.assetsPublicPath
-      : config.dev.assetsPublicPath
+      ? config.build.assetsPublicPath  //  ：/  
+      : config.dev.assetsPublicPath   //   ：/
+    // 对于一个chunk请求 ，看起来就是 /PublicPath/[name].js
+    // 对于一个输出HTML的loader 像这样输出： <link href="/publicPath/spinner.gif" />
+    // 或者在加载CSS的一个图片时：background-image: url(/publicPath/spinner.gif);
+    // webpack-dev-server 也会默认从 publicPath 为基准，使用它来决定在哪个目录下启用服务，来访问 webpack 输出的文件。
   },
   resolve: {
     extensions: ['.js', '.vue', '.json'],

@@ -75,6 +75,9 @@ export default {
       })
     },
     getDate(time) {
+      if(!time) {
+        return;
+      }
       let date = new Date(time * 1000);
       let year = date.getFullYear();
       let month =

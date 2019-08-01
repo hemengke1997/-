@@ -1,7 +1,7 @@
 <template>
-    <div class="choose_role">
+    <div class="choose_role" v-if="wholeFlag">
         <div class="role_left">
-            <canvas id="role_canvas" width="480" height="490px"></canvas>
+            <canvas id="role_canvas" width="480px" height="490px"></canvas>
             <div class="role_head_box">
                 <ul class="role_head_ul">
                     <li class="role_head_li" v-for="(item,index) in roles" :key="index" @click="draw(index)">
@@ -14,32 +14,39 @@
             <div class="arrow_left" @click="clickLeft"></div>
             <div class="arrow_right" @click="clickRight"></div>
         </div>
-        <div class="role_right" style="display:none">
+        <div class="role_right" v-show="!flag">
             <div class="role_clothes">
-                <span class="arrow_back"></span>
+                <span class="arrow_back" @click="flag=!flag"></span>
                 <div class="clothes">
-                    <span>头饰</span>
+                    <span>{{ secondTools.name }}</span>
                 </div>
             </div>
             <div class="head_box">
-                <div class="head_ul">
-                    <div class="head_li"></div>
-                </div>
+                <ul class="second_label">
+                    <li>全部</li>
+                    <li :class="{active:index===toolAcitve}" v-for="(item,index) in secondTools.children" :key="index">{{item.name}}</li>
+                </ul>
+                <ul class="head_ul">
+                    <li class="head_li" v-for="(item,index) in activeTools" :key="index">
+                        <img :src="item.picture[0]" alt="" @click="drawTool()">
+                        <span>{{ item.name }}</span>
+                    </li>
+                </ul>
                 <div class="ok_button">
                     <span>OK</span>
                 </div>
             </div>
         </div>
-        <div class="role_right">
+        <div class="role_right" v-if="flag">
             <div class="cart_title">
                 <div class="cart">
                     <span>购物车</span>
                 </div>
-                <div class="close_cart"></div>
+                <div class="close_cart" @click="wholeFlag=!wholeFlag"></div>
             </div>
             <div class="goods_list">
                 <ul class="goods_ul">
-                    <li class="goods_item" v-for="(item,index) in tools" :key="index">
+                    <li class="goods_item" v-for="(item,index) in tools" :key="index" @click="gotoTools(item._id)">
                         <img src="../style/imgs/water_poket.png" alt="">
                         <span>{{ item.name }}</span>
                         <span class="add_goods"></span>
@@ -59,7 +66,17 @@ export default {
         return {
             roles:[],
             isActive:0,
+            // 一级标题
             tools:[],
+            flag:true,
+            // 二级标题
+            secondTools:[],
+            // 整个大盒子的flag
+            wholeFlag:true,
+            toolAcitve:0,
+            // 具体的道具
+            eachTool:[],
+            canvas:{}
         }
     },
     methods:{
@@ -69,6 +86,7 @@ export default {
                 this.draw(0);
             })
         },
+        // 这个只是画role图
         draw(index){
             this.clearCanvas();
             this.changeActive(index);
@@ -77,6 +95,9 @@ export default {
             img.onload = () => {
                 this.context.drawImage(img,110,120);
             }
+        },
+        drawTool(){
+
         },
         // 清空canvas
         clearCanvas() {
@@ -108,14 +129,31 @@ export default {
         ajaxTools() {
             this.$axios.get("http://api.paopao.vip/store/categories").then(res=>{
                 this.tools = res.data.data;
-                console.log(this.tools)
+                console.log(this.tools,"tools")
 
+            })
+        },
+        gotoTools(id) {
+            this.eachTool = [];
+            this.$axios.get("http://api.paopao.vip/store/items?category_id="+id).then(res=>{
+                console.log(res.data.data.records,"eachTool")
+                this.eachTool = res.data.data.records;
+            })
+            this.flag = !this.flag;
+            this.tools.forEach(el => {
+                if(el._id === id){
+                    this.secondTools = el;
+                    console.log(this.secondTools,"secondTools")
+                }
             })
         }
     },
     computed:{
         context(){
             return document.getElementById('role_canvas').getContext('2d');
+        },
+        activeTools() {
+            return this.eachTool.slice(0,6);
         }
     },
     watch:{
@@ -247,6 +285,12 @@ export default {
 }
 .role_right .head_box .head_ul .head_li {
     margin: 10px;
+    display: flex;
+    flex-direction: column;
+}
+.role_right .head_box .head_ul .head_li>img {
+    height: 100px;
+    width: 100px;
 }
 .role_right .head_box .ok_button {
     width: 150px;
@@ -349,5 +393,17 @@ export default {
 }
 .goods_ul .goods_item img {
     margin: 0 20px;
+}
+.second_label {
+    height: 100px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 40px;
+}
+.second_label>li {
+    margin: 0 10px;
+    user-select: none;
+    cursor: pointer;
 }
 </style>

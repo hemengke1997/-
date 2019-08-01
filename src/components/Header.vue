@@ -53,7 +53,7 @@ export default {
           id:3
         },
         {
-          itemHref: "#",
+          itemHref: "activities",
           title: "活动专区",
           id:4
         }
@@ -63,16 +63,19 @@ export default {
   },
   computed:{
      path(){
-        return this.$route.path.toLowerCase();
-      }
+        return this.$route.path.toLowerCase().split('/')[1];
+      },
   },
-  mounted(){
+    mounted(){
+      this.check()
+    },
+    updated(){
       this.check()
     },
     methods:{
       check(){
         this.Item.forEach(item=>{
-          if(item.itemHref===this.path){
+          if(item.itemHref.split('/')[1]==this.path){
             this.isActive = item.id
           }
         })     

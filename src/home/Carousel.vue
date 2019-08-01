@@ -136,7 +136,7 @@ export default {
   destroyed(){
     this.stop()
     console.log('轮播图stoped')
-  }
+  },
 };
 </script>
 

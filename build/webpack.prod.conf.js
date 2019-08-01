@@ -29,6 +29,7 @@ const webpackConfig = merge(baseWebpackConfig, {
   },
   plugins: [
     // http://vuejs.github.io/vue-loader/en/workflow/production.html
+    // uglifyJsPlugin 用来对js文件进行压缩，从而减小js文件的大小，加速load速度。uglifyJsPlugin会拖慢webpack的编译速度，所有建议在开发简单将其关闭，部署的时候再将其打开。
     new webpack.DefinePlugin({
       'process.env': env
     }),
@@ -109,6 +110,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     }),
 
     // copy custom static assets
+    // 把根目录下的static中的文件复制到dist的static中
     new CopyWebpackPlugin([
       {
         from: path.resolve(__dirname, '../static'),
@@ -119,6 +121,7 @@ const webpackConfig = merge(baseWebpackConfig, {
   ]
 })
 
+// 压缩文件 （默认是不压缩的） 因为onfig.build.productionGzip == false
 if (config.build.productionGzip) {
   const CompressionWebpackPlugin = require('compression-webpack-plugin')
 
